@@ -12,7 +12,7 @@
     <div class="browser-header">
         <button onclick="goHome()">🏠 Home</button>
         <button onclick="refreshPage()">⟳ Refresh</button>
-        <input type="text" id="url-input" value="" placeholder="Type search words OR paste a direct website link here...">
+        <input type="text" id="url-input" value="" placeholder="Type a search word or full website url...">
         <button onclick="navigate()">Go / Search</button>
     </div>
 
@@ -35,17 +35,15 @@
             let input = urlInput.value.trim();
             if (!input) return;
 
-            // If it looks like a direct link (contains a dot and no spaces)
+            // FIX: If it looks like a real domain link (e.g. google.com, wikipedia.org)
             if (input.includes('.') && !input.includes(' ')) {
-                // Ensure it has the proper protocol layout
                 if (!input.startsWith('http://') && !input.startsWith('https://')) {
                     input = 'https://' + input;
                 }
                 urlInput.value = input;
-                // Force-loads the direct web link directly inside your current tab frame
                 iframe.src = input;
             } else {
-                // Otherwise, process it as a clean text search query
+                // FIX: If it's just a regular word (like 'google' or 'cats'), search it properly
                 iframe.src = "https://duckduckgo.com" + encodeURIComponent(input);
             }
         }
