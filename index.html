@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Cloud Browser</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Browser Top Bar -->
+    <div class="browser-header">
+        <button onclick="goBack()">◀</button>
+        <button onclick="goForward()">▶</button>
+        <button onclick="refreshPage()">⟳</button>
+        <input type="text" id="url-input" value="https://wikipedia.org" placeholder="Type a URL and press Enter">
+        <button onclick="navigate()">Go</button>
+    </div>
+
+    <!-- Browser Main Display Window -->
+    <div class="browser-content">
+        <iframe id="web-display" src="https://wikipedia.org"></iframe>
+    </div>
+
+    <script>
+        const iframe = document.getElementById('web-display');
+        const urlInput = document.getElementById('url-input');
+
+        // Listen for the Enter key in the URL bar
+        urlInput.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                navigate();
+            }
+        });
+
+        function navigate() {
+            let url = urlInput.value.trim();
+            
+            // Automatically add https:// if it is missing
+            if (!url.startsWith('http://') && !url.startsWith('https://')) {
+                url = 'https://' + url;
+            }
+            
+            urlInput.value = url;
+            iframe.src = url;
+        }
+
+        function refreshPage() {
+            iframe.src = iframe.src;
+        }
+
+        // Note: Back and Forward buttons have limitations in iframes due to browser security
+        function goBack() {
+            try { window.history.back(); } catch(e) { alert("Navigation blocked by security policy"); }
+        }
+
+        function goForward() {
+            try { window.history.forward(); } catch(e) { alert("Navigation blocked by security policy"); }
+        }
+    </script>
+</body>
+</html>
