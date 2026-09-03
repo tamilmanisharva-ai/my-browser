@@ -1,0 +1,66 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+    background-color: #202124;
+}
+
+/* Header/Navigation Navigation Bar styling */
+.browser-header {
+    display: flex;
+    align-items: center;
+    background-color: #35363a;
+    padding: 8px;
+    gap: 8px;
+}
+
+.browser-header button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 6px 10px;
+    border-radius: 4px;
+}
+
+.browser-header button:hover {
+    background-color: #4a4b50;
+}
+
+/* URL Input field */
+#url-input {
+    flex-grow: 1;
+    padding: 6px 12px;
+    border-radius: 20px;
+    border: none;
+    background-color: #202124;
+    color: white;
+    font-size: 14px;
+    outline: none;
+}
+
+#url-input:focus {
+    background-color: #141517;
+    box-shadow: 0 0 0 2px #8ab4f8;
+}
+
+/* Webview Frame area */
+.browser-content {
+    flex-grow: 1;
+    background-color: white;
+}
+
+iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
