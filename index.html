@@ -3,31 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Cloud Browser</title>
+    <title>My Cloud Portal</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <!-- Browser Control Header Layout -->
+    <!-- Top Navigation Header Layout -->
     <div class="browser-header">
-        <button onclick="goHome()">🏠 Home</button>
-        <button onclick="refreshPage()">⟳ Refresh</button>
-        <input type="text" id="url-input" value="" placeholder="Type a search topic or keyword here...">
-        <button onclick="navigate()">Go / Search</button>
+        <div style="color: white; font-weight: bold; margin-right: 15px; font-size: 16px;">🌐 CloudPortal</div>
+        <input type="text" id="url-input" value="" placeholder="Type a search query OR paste a website link here...">
+        <button onclick="navigate()">Launch Workspace</button>
     </div>
 
-    <!-- Main Tab Window Display Area -->
-    <div class="browser-content">
-        <iframe id="web-display" src="about:blank"></iframe>
+    <!-- Main Workspace Dashboard Grid -->
+    <div class="browser-content" style="background-color: #202124; padding: 40px; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 85vh; color: white; font-family: Arial, sans-serif;">
+        
+        <h1 style="font-size: 42px; margin-bottom: 10px; color: #8ab4f8;">My Workspace Hub</h1>
+        <p style="color: #9aa0a6; font-size: 16px; margin-bottom: 40px; text-align: center; max-width: 500px;">
+            Type your topic or paste a URL link into the header command field above, then click Launch.
+        </p>
+
+        <!-- Quick Launch Dashboard Panels -->
+        <h3 style="margin-bottom: 15px; align-self: flex-start; max-width: 600px; width: 100%; border-bottom: 1px solid #3c4043; padding-bottom: 10px; color: #8ab4f8;">Quick Launch Workspaces</h3>
+        <div style="display: flex; gap: 15px; flex-wrap: wrap; width: 100%; max-width: 600px;">
+            <button onclick="launchQuick('https://www.google.com')" style="padding: 15px 25px; background-color: #303134; border: 1px solid #3c4043; color: white; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 14px;">Google</button>
+            <button onclick="launchQuick('https://wikipedia.org')" style="padding: 15px 25px; background-color: #303134; border: 1px solid #3c4043; color: white; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 14px;">Wikipedia</button>
+            <button onclick="launchQuick('https://github.com')" style="padding: 15px 25px; background-color: #303134; border: 1px solid #3c4043; color: white; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 14px;">GitHub</button>
+        </div>
+
     </div>
 
     <script>
-        const iframe = document.getElementById('web-display');
         const urlInput = document.getElementById('url-input');
-
-        window.onload = function() {
-            goHome();
-        };
 
         urlInput.addEventListener('keypress', function (e) {
             if (e.key === 'Enter') {
@@ -39,30 +46,20 @@
             let input = urlInput.value.trim();
             if (!input) return;
 
-            // Strip out clean protocols if the user types them out
-            input = input.replace('https://', '').replace('http://', '');
-
-            // Force query processing strictly through Mojeek's allowed frame pathway
-            let searchUrl = "https://mojeek.com" + encodeURIComponent(input);
-            
-            iframe.src = searchUrl;
+            // If the input has a dot and no spaces, handle it as a direct web address
+            if (input.includes('.') && !input.includes(' ')) {
+                if (!input.startsWith('http://') && !input.startsWith('https://')) {
+                    input = 'https://' + input;
+                }
+                window.open(input, '_blank');
+            } else {
+                // Treat input as a clean Google text search configuration query
+                window.open("https://google.com" + encodeURIComponent(input), '_blank');
+            }
         }
 
-        function refreshPage() {
-            iframe.src = iframe.src;
-        }
-
-        function goHome() {
-            urlInput.value = "";
-            let welcomeHTML = `
-                <html>
-                <body style="background-color: #202124; color: white; font-family: Arial, sans-serif; display: flex; flex-direction: column; justify-content: center; align-items: center; height: 80vh; margin: 0;">
-                    <h1 style="font-size: 36px; margin-bottom: 10px;">My Cloud Workspace</h1>
-                    <p style="color: #9aa0a6; font-size: 16px;">Type a topic into the search bar above to begin browsing securely via Mojeek.</p>
-                </body>
-                </html>
-            `;
-            iframe.src = "data:text/html;charset=utf-8," + encodeURIComponent(welcomeHTML);
+        function launchQuick(targetUrl) {
+            window.open(targetUrl, '_blank');
         }
     </script>
 </body>
