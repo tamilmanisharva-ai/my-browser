@@ -33,17 +33,24 @@
             }
         });
 
-        function navigate() {
+                function navigate() {
             let url = urlInput.value.trim();
             
-            // Automatically add https:// if it is missing
+            if (!url) return;
+
             if (!url.startsWith('http://') && !url.startsWith('https://')) {
-                url = 'https://' + url;
+                if (url.includes('.') && !url.includes(' ')) {
+                    url = 'https://' + url;
+                } else {
+                    iframe.src = "https://duckduckgo.com" + encodeURIComponent(url);
+                    return;
+                }
             }
             
             urlInput.value = url;
-            iframe.src = url;
+            iframe.src = "https://duckduckgo.com" + encodeURIComponent(url);
         }
+
 
         function refreshPage() {
             iframe.src = iframe.src;
